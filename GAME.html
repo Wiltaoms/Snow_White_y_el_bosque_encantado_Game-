@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blancanieves y sus amigos: ¿Qué figura sigue?</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;color:#26324a;background:#f8effd}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at 15% 10%,#fff9d8,transparent 30%),linear-gradient(135deg,#e8e2ff,#ffe7ef 55%,#d8fff4)}
+.shell{max-width:1080px;margin:auto;padding:20px 16px 45px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:900;font-size:clamp(24px,4vw,39px);color:#533080}
+.tag{font-size:13px;color:#69547f;font-weight:700}
+.pill{background:#fff;border:2px solid #eee1ff;border-radius:30px;padding:10px 16px;font-weight:800;box-shadow:0 5px 15px #76599f20}
+.hero{margin-top:22px;background:linear-gradient(120deg,#6e4dba,#a961b3 70%,#dd8fb8);color:white;border-radius:28px;padding:24px;display:flex;gap:22px;align-items:center;box-shadow:0 16px 30px #6c3e9b30}
+.hero h1{font-size:clamp(24px,4vw,37px);margin:0 0 8px}
+.hero p{margin:0;line-height:1.5}
+.portrait{width:114px;flex:none;filter:drop-shadow(0 9px 4px #432d6955)}
+.cast{margin-top:18px;background:#ffffffd8;border-radius:24px;padding:18px;border:2px solid #f3ebff;box-shadow:0 10px 28px #5a397317}
+.cast h3{margin:0 0 12px;color:#523278;font-size:20px}
+.cast-grid{display:grid;grid-template-columns:repeat(6,minmax(100px,1fr));gap:12px}
+.char-card{background:linear-gradient(180deg,#fff,#faf6ff);border:2px solid #ebdef8;border-radius:18px;padding:10px 8px;text-align:center}
+.char-icon{font-size:34px;display:block;margin-bottom:6px}
+.char-name{font-weight:800;color:#5f3b90;font-size:14px}
+.char-role{font-size:12px;color:#7a688c;line-height:1.25}
+.board{background:#ffffffee;border:2px solid #fff;border-radius:28px;margin-top:20px;padding:clamp(16px,3vw,30px);box-shadow:0 12px 35px #5a397322}
+.status{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.bar{height:12px;border-radius:20px;background:#ece4f5;margin:14px 0 22px;overflow:hidden}
+.bar>div{width:10%;height:100%;background:linear-gradient(90deg,#ffc247,#f17fba);transition:width .25s}
+.storybox{display:flex;align-items:center;gap:14px;background:linear-gradient(180deg,#fff8ff,#f8f2ff);border:2px solid #efe2fb;border-radius:20px;padding:14px 16px;margin-bottom:18px}
+.story-icon{font-size:42px;line-height:1}
+.story-title{font-weight:900;color:#58338b;font-size:17px;margin-bottom:4px}
+.story-text{color:#69567d;line-height:1.4}
+h2{text-align:center;color:#523278;margin:0 0 8px;font-size:clamp(21px,3vw,27px)}
+.hintline{text-align:center;color:#776583;margin-bottom:22px}
+.sequence{display:flex;align-items:center;justify-content:center;gap:clamp(5px,2vw,20px);flex-wrap:wrap;margin:15px auto 27px}
+.tile{border:3px solid #e7d9f4;background:linear-gradient(135deg,#fff,#fbf6ff);border-radius:20px;display:grid;place-items:center;width:clamp(65px,14vw,120px);height:clamp(72px,15vw,125px);position:relative;box-shadow:0 6px 13px #5f47741a}
+.tile svg{width:75%;height:75%}
+.tile.missing{border:3px dashed #aa81d6;background:#f8efff;color:#7445b1;font-size:56px;font-weight:900}
+.arrow{font-size:25px;color:#b69ac9}
+.options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:720px;margin:0 auto}
+.option{height:clamp(100px,18vw,142px);border:3px solid #e4d6ef;background:#fff;border-radius:20px;cursor:pointer;display:grid;place-items:center;position:relative;transition:transform .15s,border .15s,background .15s}
+.option svg{width:78px;height:78px;max-width:85%;max-height:75%}
+.option:hover:not(:disabled){transform:translateY(-4px);border-color:#9a65ce}
+.option:focus-visible,button:focus-visible{outline:4px solid #e8902d;outline-offset:3px}
+.option:disabled{cursor:default}
+.option.good{border-color:#30b478;background:#e4fff1}
+.option.bad{border-color:#ef6183;background:#fff0f3}
+.option small{position:absolute;top:8px;left:10px;border-radius:50%;background:#f2eaf8;color:#6f5088;width:25px;height:25px;display:grid;place-items:center;font-weight:800}
+.feedback{min-height:54px;text-align:center;margin:20px 0 10px;font-weight:800;font-size:18px}
+.feedback.success{color:#168556}
+.feedback.fail{color:#b52b53}
+.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+button.action{border:0;border-radius:15px;padding:14px 22px;font-size:16px;font-weight:800;cursor:pointer}
+.primary{background:#6844b7;color:white;box-shadow:0 6px 15px #6844b73a}
+.secondary{background:#f2e7fb;color:#623a91}
+.action:disabled{opacity:.45;cursor:not-allowed}
+.foot{text-align:center;color:#735c84;font-size:13px;margin-top:20px}
+.hidden{display:none!important}
+@media(max-width:860px){.cast-grid{grid-template-columns:repeat(3,minmax(100px,1fr))}}
+@media(max-width:560px){.hero{padding:18px;gap:10px}.portrait{width:79px}.options{gap:8px}.option{border-radius:14px}.tile{border-radius:14px}.arrow{font-size:16px}.shell{padding:12px 9px 28px}.cast-grid{grid-template-columns:repeat(2,minmax(100px,1fr))}.storybox{align-items:flex-start}}
+.char-token{font-size:clamp(38px,8vw,72px);line-height:1;filter:drop-shadow(0 3px 2px #5a397322)}.option .char-token{font-size:clamp(39px,7vw,70px)}.rule-label{font-size:12px;color:#765b8a;margin-top:3px;font-weight:700}.story-text{font-size:15px}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="top">
+  <div>
+    <div class="brand">🍎 Reino de Blancanieves</div>
+    <div class="tag">Juego de lógica avanzada con los personajes del cuento</div>
+  </div>
+  <div class="pill" id="score">⭐ 0 puntos</div>
+</header>
+
+<section class="hero">
+<svg class="portrait" viewBox="0 0 120 150" role="img" aria-label="Blancanieves">
+<ellipse cx="60" cy="136" rx="44" ry="11" fill="#4e2f7844"/>
+<path d="M40 90 Q60 81 80 90 L107 142 L13 142Z" fill="#ffe055"/>
+<path d="M42 78 L32 106 L48 111 L60 99 L73 111 L89 104 L79 78Z" fill="#3387dc"/>
+<circle cx="60" cy="55" r="29" fill="#ffe0c5"/>
+<path d="M31 58 Q25 22 59 20 Q94 19 89 58 L81 44 Q60 34 40 46Z" fill="#20233f"/>
+<path d="M32 45 Q19 20 37 13 L60 26 Q78 11 89 18 L85 39 Q61 13 32 45Z" fill="#d8465e"/>
+<circle cx="50" cy="56" r="2.6" fill="#24324c"/><circle cx="70" cy="56" r="2.6" fill="#24324c"/>
+<path d="M52 68 Q60 75 68 68" fill="none" stroke="#b34262" stroke-width="3" stroke-linecap="round"/>
+<path d="M31 100 Q17 98 17 110 L33 116" stroke="#ffe0c5" stroke-width="10" fill="none"/>
+<path d="M88 100 Q103 97 103 110 L88 116" stroke="#ffe0c5" stroke-width="10" fill="none"/>
+</svg>
+<div>
+  <h1>¿Qué figura sigue?</h1>
+  <p>Descubre los patrones secretos de los personajes del cuento. Cada nivel es un reto diferente: ¿quién o qué figura falta?</p>
+</div>
+</section>
+
+<section class="cast">
+  <h3>👑 Personajes del cuento</h3>
+  <div class="cast-grid">
+    <div class="char-card"><span class="char-icon">👸</span><div class="char-name">Blancanieves</div><div class="char-role">Te guía durante el juego.</div></div>
+    <div class="char-card"><span class="char-icon">🪞</span><div class="char-name">Espejo mágico</div><div class="char-role">Te da pistas secretas.</div></div>
+    <div class="char-card"><span class="char-icon">👑</span><div class="char-name">Reina malvada</div><div class="char-role">Quiere confundirte.</div></div>
+    <div class="char-card"><span class="char-icon">⛏️</span><div class="char-name">Enanitos</div><div class="char-role">Celebran tus aciertos.</div></div>
+    <div class="char-card"><span class="char-icon">🍎</span><div class="char-name">Manzana</div><div class="char-role">Símbolo del cuento.</div></div>
+    <div class="char-card"><span class="char-icon">🤴</span><div class="char-name">Príncipe</div><div class="char-role">Aparece al final.</div></div>
+  </div>
+</section>
+
+<section class="board">
+  <div class="status">
+    <strong id="level">Nivel 1 de 24</strong>
+    <span id="streak">🔥 Racha: 0</span>
+    <span id="difficulty">🌱 Fácil</span>
+  </div>
+  <div class="bar"><div id="progress"></div></div>
+
+  <div class="storybox">
+    <div class="story-icon" id="storyIcon">👸</div>
+    <div>
+      <div class="story-title" id="storyTitle">Blancanieves te habla</div>
+      <div class="story-text" id="storyText">Completa la secuencia para abrir el camino del bosque.</div>
+    </div>
+  </div>
+
+  <h2 id="question">Observa con atención...</h2>
+  <div class="hintline" id="subtext">¿Cuál es la siguiente figura?</div>
+  <div class="sequence" id="sequence" aria-label="Secuencia"></div>
+  <div class="options" id="options" aria-label="Opciones de respuesta"></div>
+  <div class="feedback" id="feedback" aria-live="polite"></div>
+  <div class="actions">
+    <button class="action secondary" id="hint">💡 Pista</button>
+    <button class="action primary" id="next" disabled>Continuar →</button>
+    <button class="action secondary" id="restart">↻ Reiniciar</button>
+  </div>
+</section>
+
+<div class="foot">Juego de lógica de 24 niveles · Funciona sin Internet · Compatible con celulares y computadoras</div>
+</main>
+
+<script>
+const symbols=[
+{label:'Blancanieves',art:'👸',kind:'persona'},
+{label:'Reina malvada',art:'🦹‍♀️',kind:'persona'},
+{label:'Espejo mágico',art:'🪞',kind:'persona'},
+{label:'Enanito',art:'🧙‍♂️',kind:'persona'},
+{label:'Príncipe',art:'🤴',kind:'persona'},
+{label:'Manzana',art:'🍎',kind:'objeto'},
+{label:'Corona',art:'👑',kind:'objeto'},
+{label:'Diamante',art:'💎',kind:'objeto'},
+{label:'Bosque',art:'🌲',kind:'objeto'},
+{label:'Castillo',art:'🏰',kind:'objeto'},
+{label:'Estrella',art:'⭐',kind:'objeto'},
+{label:'Corazón',art:'❤️',kind:'objeto'}
+];
+// All challenges have a defined, deterministic answer. A hole may appear anywhere.
+const levels=[
+{seq:[0,5,0,5,0,5],hole:5,rule:'Blancanieves y la manzana se alternan.',clue:'ABABAB'},
+{seq:[1,2,1,2,1,2],hole:4,rule:'La Reina y el espejo se turnan sin cambiar el orden.',clue:'ABABAB'},
+{seq:[3,3,6,3,3,6],hole:5,rule:'Dos enanitos y luego una corona.',clue:'AABAAB'},
+{seq:[4,7,8,4,7,8],hole:4,rule:'Príncipe, diamante y bosque forman un ciclo.',clue:'ABCABC'},
+{seq:[0,0,1,0,0,1,0,0,1],hole:7,rule:'Dos Blancanieves por cada Reina.',clue:'AABAABAAB'},
+{seq:[2,5,5,2,5,5,2,5,5],hole:7,rule:'Un espejo, luego dos manzanas.',clue:'ABBABBABB'},
+{seq:[3,6,3,7,3,6,3,7],hole:6,rule:'El enanito reaparece entre corona y diamante.',clue:'ABACABAC'},
+{seq:[0,4,9,0,4,9,0,4,9],hole:4,rule:'Blancanieves, príncipe y castillo siempre van en ese orden.',clue:'ABCABCABC'},
+{seq:[1,2,2,5,1,2,2,5],hole:6,rule:'Reina, espejo, espejo, manzana: se repite el bloque.',clue:'ABBCABBC'},
+{seq:[3,3,3,6,3,3,3,6],hole:5,rule:'Tres enanitos y una corona forman el patrón.',clue:'AAABAAAB'},
+{seq:[4,0,4,3,4,0,4,3],hole:3,rule:'Príncipe, Blancanieves, príncipe y enanito.',clue:'ABACABAC'},
+{seq:[2,1,5,2,1,5,2,1,5],hole:8,rule:'Espejo, Reina y manzana: un ciclo de tres.',clue:'ABCABCABC'},
+{seq:[6,7,6,8,6,7,6,8],hole:5,rule:'La corona está en todas las posiciones impares del bloque; diamante y bosque se alternan.',clue:'ABACABAC'},
+{seq:[0,3,3,4,0,3,3,4],hole:2,rule:'Blancanieves, dos enanitos y príncipe.',clue:'ABBCABBC'},
+{seq:[1,1,2,5,1,1,2,5],hole:7,rule:'Dos Reinas, espejo y manzana.',clue:'AABC AABC'},
+{seq:[8,9,8,10,8,9,8,10],hole:4,rule:'Bosque, castillo, bosque, estrella.',clue:'ABACABAC'},
+{seq:[0,5,0,5,4,0,5,0,5,4],hole:8,rule:'El bloque es Blancanieves, manzana, Blancanieves, manzana, príncipe.',clue:'ABABC ABABC'},
+{seq:[3,6,7,3,6,7,3,6,7],hole:5,rule:'Enanito, corona, diamante: ciclo de tres.',clue:'ABCABCABC'},
+{seq:[2,2,1,2,2,1,2,2,1],hole:6,rule:'El espejo aparece dos veces antes de la Reina.',clue:'AABAABAAB'},
+{seq:[4,0,11,4,0,11,4,0,11],hole:1,rule:'Príncipe, Blancanieves y corazón.',clue:'ABCABCABC'},
+{seq:[1,5,2,5,1,5,2,5,1,5,2,5],hole:9,rule:'Manzana aparece entre Reina y espejo, alternándose.',clue:'ABCB ABCB ABCB'},
+{seq:[3,3,6,7,3,3,6,7,3,3,6,7],hole:10,rule:'Dos enanitos, corona y diamante.',clue:'AABC AABC AABC'},
+{seq:[0,4,0,2,1,0,4,0,2,1],hole:8,rule:'Blancanieves, príncipe, Blancanieves, espejo y Reina.',clue:'ABACD ABACD'},
+{seq:[0,3,4,6,2,1,0,3,4,6,2,1],hole:10,rule:'Seis símbolos: Blancanieves, enanito, príncipe, corona, espejo y Reina.',clue:'ABCDEF ABCDEF'}
+];
+const narrators=[
+{icon:'👸',title:'Blancanieves',line:'El bosque te reta: observa quién aparece antes y después.'},
+{icon:'🪞',title:'Espejo mágico',line:'Solo quien descubra la regla encontrará la respuesta.'},
+{icon:'🦹‍♀️',title:'Reina malvada',line:'¿Podrás descubrir a quién he escondido?'},
+{icon:'🧙‍♂️',title:'Los siete enanitos',line:'¡Atención! Puede haber grupos de dos, tres o más figuras.'},
+{icon:'🤴',title:'El príncipe',line:'Cada detalle cuenta. Busca el ciclo completo.'}
+];
+let index=0,score=0,streak=0,correct=0,chosen=false,hinted=false,wrong=0;
+const el=id=>document.getElementById(id);
+function shuffle(a,seed){let out=[...a];for(let i=out.length-1;i>0;i--){let j=(seed*31+i*19)%(i+1);[out[i],out[j]]=[out[j],out[i]]}return out}
+function card(id,missing=false){return '<div class="tile'+(missing?' missing':'')+'" aria-label="'+(missing?'Figura faltante':symbols[id].label)+'">'+(missing?'?':'<span class="char-token" aria-hidden="true">'+symbols[id].art+'</span>')+'</div>'}
+function render(){
+ if(index>=levels.length){finish();return}
+ const q=levels[index]; chosen=false;hinted=false;
+ el('level').textContent='Nivel '+(index+1)+' de '+levels.length;
+ el('difficulty').textContent=index<6?'🌱 Fácil':index<14?'🌟 Intermedio':'👑 Experto';
+ el('progress').style.width=(index/levels.length*100)+'%';
+ el('question').textContent=index<6?'¿Quién falta en la historia?':index<14?'Encuentra el personaje oculto':'Desafío de la Reina malvada';
+ el('subtext').textContent='Observa toda la secuencia. Selecciona la figura que reemplaza al signo de interrogación.';
+ el('sequence').innerHTML=q.seq.map((s,i)=>card(s,i===q.hole)).join('<span class="arrow" aria-hidden="true">›</span>');
+ const ans=q.seq[q.hole]; const used=[...new Set(q.seq.filter((_,i)=>i!==q.hole))].filter(x=>x!==ans);
+ const choices=shuffle([...new Set([...used,...symbols.map((_,i)=>i)])].filter(x=>x!==ans),index+11).slice(0,3);
+ const options=shuffle([ans,...choices],index+19);
+ el('options').innerHTML=options.map((v,i)=>'<button class="option" type="button" data-id="'+v+'" aria-label="Opción '+(i+1)+': '+symbols[v].label+'"><small>'+(i+1)+'</small><span class="char-token" aria-hidden="true">'+symbols[v].art+'</span><span class="rule-label">'+symbols[v].label+'</span></button>').join('');
+ el('options').querySelectorAll('button').forEach(btn=>btn.addEventListener('click',()=>pick(Number(btn.dataset.id),btn)));
+ const n=narrators[index%narrators.length];
+ el('storyIcon').textContent=n.icon;el('storyTitle').textContent=n.title+' te desafía';el('storyText').textContent=n.line;
+ el('feedback').textContent='';el('feedback').className='feedback';el('next').disabled=true;el('next').textContent='Continuar →';el('hint').disabled=false;
+ el('score').textContent='⭐ '+score+' puntos';el('streak').textContent='🔥 Racha: '+streak;
+}
+function pick(choice,button){
+ if(chosen)return; chosen=true;
+ const q=levels[index],ans=q.seq[q.hole],ok=choice===ans;
+ for(const btn of el('options').querySelectorAll('button')){btn.disabled=true;if(Number(btn.dataset.id)===ans)btn.classList.add('good')}
+ if(ok){correct++;streak++;score+=hinted?5:15;el('feedback').textContent='✨ ¡Correcto! '+q.rule;el('feedback').className='feedback success';el('storyIcon').textContent='🧙‍♂️';el('storyTitle').textContent='¡Los enanitos celebran!';el('storyText').textContent='Resolviste el acertijo del bosque.'}
+ else{wrong++;streak=0;button.classList.add('bad');el('feedback').textContent='💗 La respuesta era '+symbols[ans].label+'. '+q.rule;el('feedback').className='feedback fail';el('storyIcon').textContent='🦹‍♀️';el('storyTitle').textContent='La Reina te reta';el('storyText').textContent='No te rindas: en el siguiente nivel podrás recuperarte.'}
+ el('score').textContent='⭐ '+score+' puntos';el('streak').textContent='🔥 Racha: '+streak;
+ el('hint').disabled=true;el('next').disabled=false;el('next').textContent=index===levels.length-1?'Ver resultado 🏆':'Continuar →';
+}
+function finish(){el('level').textContent='¡Aventura completada!';el('difficulty').textContent='🏆 Final';el('progress').style.width='100%';el('question').textContent='🎉 ¡Final del cuento!';el('subtext').textContent='Has completado los acertijos de la Reina malvada.';el('storyIcon').textContent='🤴';el('storyTitle').textContent='El príncipe te felicita';el('storyText').textContent='Blancanieves y los siete enanitos celebran contigo.';el('sequence').innerHTML='<div style="font-size:clamp(30px,8vw,75px);text-align:center">👸 🧙‍♂️ 🤴 🏰</div>';el('options').innerHTML='<div style="grid-column:1/-1;text-align:center;font-size:19px;line-height:1.7"><strong>'+correct+' de '+levels.length+' respuestas correctas</strong><div>⭐ Puntuación: '+score+' puntos</div><div>Errores: '+wrong+'</div></div>';el('feedback').textContent=correct===levels.length?'¡Perfecto! Has vencido todos los acertijos.':'¡Buen trabajo! Vuelve a intentarlo para conseguir más puntos.';el('feedback').className='feedback success';el('next').disabled=true;el('hint').disabled=true;el('restart').textContent='↻ Jugar de nuevo'}
+el('hint').addEventListener('click',()=>{if(chosen||hinted)return;hinted=true;const q=levels[index];el('feedback').textContent='💡 Pista del espejo: patrón '+q.clue+' (las mismas letras representan la misma figura).';el('feedback').className='feedback';el('hint').disabled=true;el('storyIcon').textContent='🪞';el('storyTitle').textContent='El espejo mágico revela';el('storyText').textContent='El orden del patrón es: '+q.clue+'. Compara las posiciones que tienen la misma letra.'});
+el('next').addEventListener('click',()=>{if(!chosen)return;index++;render()});
+el('restart').addEventListener('click',()=>{index=0;score=0;streak=0;correct=0;wrong=0;el('restart').textContent='↻ Reiniciar';render()});render();
+</script>
+</body>
+</html>
